@@ -17,6 +17,6 @@ Here's an example config:
 TOKEN="YOUR_SUPERSECRET_TOKEN"
 INSTANCE="mastodon.social"
 FIELDID="3"
-NAME="🎵️"
+NAME="Now playing"
 PLAYER="spotify"
 ```
