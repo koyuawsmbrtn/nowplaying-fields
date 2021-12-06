@@ -5,6 +5,7 @@ import subprocess
 import json
 import urllib.parse
 
+os.system("tput reset")
 print("Listening...")
 
 profile = json.loads(subprocess.check_output("curl -s https://"+config("INSTANCE")+"/api/v1/accounts/verify_credentials -H \"Authorization: Bearer "+config("TOKEN")+"\"", shell=True).decode("utf-8"))
