@@ -3,6 +3,7 @@ from time import sleep
 from decouple import config
 import subprocess
 import json
+import sys
 import urllib.parse
 
 os.system("tput reset")
@@ -21,7 +22,12 @@ for item in fields:
     i = i+1
 data = data[:-1]
 
-while True:
-    np = subprocess.check_output("echo $(playerctl metadata -p "+config("PLAYER")+" xesam:artist) - $(playerctl metadata -p "+config("PLAYER")+" xesam:title)", shell=True).decode("utf-8")
+try:
+    while True:
+        np = subprocess.check_output("echo $(playerctl metadata -p "+config("PLAYER")+" xesam:artist) - $(playerctl metadata -p "+config("PLAYER")+" xesam:title)", shell=True).decode("utf-8")
+        os.system("curl -sSL \"https://"+config("INSTANCE")+"/api/v1/accounts/update_credentials\" -H \"Authorization: Bearer "+config("TOKEN")+"\" -X PATCH -d \""+data+"\" --data-urlencode \"fields_attributes["+config("FIELDID")+"][value]="+np+"\" > /dev/null")
+        sleep (5)
+except:
+    np = "-"
     os.system("curl -sSL \"https://"+config("INSTANCE")+"/api/v1/accounts/update_credentials\" -H \"Authorization: Bearer "+config("TOKEN")+"\" -X PATCH -d \""+data+"\" --data-urlencode \"fields_attributes["+config("FIELDID")+"][value]="+np+"\" > /dev/null")
-    sleep (5)
+    sys.exit(0)
